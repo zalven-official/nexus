@@ -1,7 +1,17 @@
 /// <reference types="chrome" />
 import { ref } from 'vue'
-import { executeScriptOnActiveTab } from '@/lib'
 import { defineStore } from 'pinia'
+
+
+interface MarkPage {
+  x: number
+  y: number
+  type: any
+  text: any
+  ariaLabel: any
+  image: string
+}
+
 
 export const useAnnotationStore = defineStore('annotation', () => {
 
@@ -28,7 +38,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
     styleTag.textContent = customCSS
     document.head.append(styleTag)
 
-    const labels = []
+    const labels: HTMLDivElement[] = []
 
     let items = Array.prototype.slice
       .call(document.querySelectorAll('*'))
@@ -150,30 +160,24 @@ export const useAnnotationStore = defineStore('annotation', () => {
     return coordinates
   }
 
-  function unmarkPage() {
-    // for (const label of labels) {
-    // document.body.removeChild(label)
-    // }
-    // labels = []
+
+
+  async function handleMarkPage(): Promise<MarkPage | undefined> {
+    isLoading.value = true
+    const [tab] = await chrome.tabs.query({ active: true })
+    if (tab && tab.id) {
+      const [result] = await chrome.scripting.executeScript({ target: { tabId: tab.id }, func: markPage })
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Sleep for 3 seconds
+      const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' })
+      isLoading.value = false
+      return { ...result.result, image: screenshotUrl } as MarkPage
+    }
+    return undefined
   }
 
-  async function handleMarkPage() {
-    isLoading.value = true
-    const result = await executeScriptOnActiveTab(markPage);
-    isLoading.value = false
-    return result
-  }
-
-  async function handleUnmarkPage() {
-    isLoading.value = true
-    const result = await executeScriptOnActiveTab(unmarkPage);
-    isLoading.value = false
-    return result
-  }
 
   return {
     isLoading,
     handleMarkPage,
-    handleUnmarkPage,
   }
 })

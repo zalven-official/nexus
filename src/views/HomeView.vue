@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import PageAnnotator from '@/components/modules/annotator/PageAnnotator.vue';
-
 </script>
 
 
