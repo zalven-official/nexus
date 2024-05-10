@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-
 interface MarkPage {
   x: number
   y: number
@@ -38,14 +37,8 @@ function markPage() {
   let items = Array.prototype.slice
     .call(document.querySelectorAll('*'))
     .map(function (element) {
-      const vw = Math.max(
-        document.documentElement.clientWidth || 0,
-        window.innerWidth || 0
-      )
-      const vh = Math.max(
-        document.documentElement.clientHeight || 0,
-        window.innerHeight || 0
-      )
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
       const textualContent = element.textContent.trim().replace(/\s{2,}/g, ' ')
       const elementType = element.tagName.toLowerCase()
       const ariaLabel = element.getAttribute('aria-label') || ''
@@ -63,12 +56,12 @@ function markPage() {
             left: Math.max(0, bb.left),
             top: Math.max(0, bb.top),
             right: Math.min(vw, bb.right),
-            bottom: Math.min(vh, bb.bottom),
+            bottom: Math.min(vh, bb.bottom)
           }
           return {
             ...rect,
             width: rect.right - rect.left,
-            height: rect.bottom - rect.top,
+            height: rect.bottom - rect.top
           }
         })
 
@@ -90,15 +83,13 @@ function markPage() {
         rects,
         text: textualContent,
         type: elementType,
-        ariaLabel: ariaLabel,
+        ariaLabel: ariaLabel
       }
     })
     .filter((item) => item.include && item.area >= 20)
 
   // Only keep inner clickable items
-  items = items.filter(
-    (x) => !items.some((y) => x.element.contains(y.element) && !(x == y))
-  )
+  items = items.filter((x) => !items.some((y) => x.element.contains(y.element) && !(x == y)))
 
   function getRandomColor() {
     const letters = '0123456789ABCDEF'
@@ -149,10 +140,10 @@ function markPage() {
       y: (top + top + height) / 2,
       type: item.type,
       text: item.text,
-      ariaLabel: item.ariaLabel,
+      ariaLabel: item.ariaLabel
     }))
   )
-  chrome.runtime.sendMessage({ type: 'markPageCompleted', data: coordinates });
+  chrome.runtime.sendMessage({ type: 'markPageCompleted', data: coordinates })
   return coordinates
 }
 
@@ -162,19 +153,21 @@ export const useAnnotationStore = defineStore('annotation', () => {
     if (!isLoading.value) {
       isLoading.value = true
       const [tab] = await chrome.tabs.query({ active: true })
-      if (tab && tab.id)
-        chrome.scripting.executeScript({ target: { tabId: tab.id }, func: markPage });
+      if (tab && tab.id) {
+        chrome.scripting.executeScript({ target: { tabId: tab.id }, func: markPage })
+      }
       const pageDataPromise = new Promise<MarkPage>((resolve) => {
         chrome.runtime.onMessage.addListener(async function (message) {
           if (message.type === 'markPageCompleted') {
-            const pageData = message.data;
-            const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' })
-            resolve({ ...pageData, image: screenshotUrl } as MarkPage);
-            chrome.runtime.sendMessage({ type: 'screenshotCompleted' });
+            const pageData = message.data
+            const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
+              format: 'png'
+            })
+            resolve({ ...pageData, image: screenshotUrl } as MarkPage)
+            chrome.runtime.sendMessage({ type: 'screenshotCompleted' })
           }
-        });
-      });
-
+        })
+      })
       isLoading.value = false
       return pageDataPromise
     }
@@ -183,6 +176,6 @@ export const useAnnotationStore = defineStore('annotation', () => {
 
   return {
     isLoading,
-    handleMarkPage,
+    handleMarkPage
   }
 })
