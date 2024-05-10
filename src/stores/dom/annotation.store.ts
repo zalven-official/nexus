@@ -159,14 +159,16 @@ export const useAnnotationStore = defineStore('annotation', () => {
 
   async function handleMarkPage() {
     isLoading.value = true
-    await executeScriptOnActiveTab(markPage);
+    const result = await executeScriptOnActiveTab(markPage);
     isLoading.value = false
+    return result
   }
 
   async function handleUnmarkPage() {
     isLoading.value = true
-    await executeScriptOnActiveTab(unmarkPage);
+    const result = await executeScriptOnActiveTab(unmarkPage);
     isLoading.value = false
+    return result
   }
 
   return {
