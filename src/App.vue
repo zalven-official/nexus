@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
   <main>
-    <RouterView />
+    ndlloosss
+    <router-view></router-view>
   </main>
 </template>
