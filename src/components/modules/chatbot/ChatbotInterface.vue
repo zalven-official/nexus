@@ -52,7 +52,12 @@ const sampleMessageBox = ref<IMessage[]>([
   {
     image: 'receiver-img.jpg',
     label: 'Zalven Dayao',
-    message: 'Great! Have a nice day',
+    message: `
+      Type Safety: Using PropType from Vue provides robust type checking for your props, making your component more reliable and easier to debug.
+      Flexibility: Optional props like userImage, otherUserImage allow for customization.
+      Reactivity: Leveraging the onMessageSent event and Vue's reactivity system makes it easy to handle new messages and update the UI.
+      Clear Separation of Concerns: The MessageBox focuses on displaying messages, while message sending logic is handled in the parent component.
+    `,
     datetime: new Date('2024-05-11T10:32:00'),
     sender: true,
   },

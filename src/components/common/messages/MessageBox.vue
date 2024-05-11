@@ -5,13 +5,13 @@ import SenderMessage from '@/components/common/messages/components/SenderMessage
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 // Types
-import type { IMessageBox } from './types';
+import type { IMessageBox } from './types'
 
 defineProps<IMessageBox>()
 </script>
 
 <template>
-  <ScrollArea class="h-[300px] w-[350px] rounded-md border p-4">
+  <ScrollArea class="h-[300px] w-full rounded-md border p-4">
     <template v-for="(message, index) in messages" :key="index">
       <template v-if="message.sender">
         <SenderMessage :image="message.image" :label="message.label" :sender="message.sender"
