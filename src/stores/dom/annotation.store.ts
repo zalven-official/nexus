@@ -10,7 +10,6 @@ interface MarkPage {
   ariaLabel: any
   image: string
 }
-
 function markPage() {
   const customCSS = `
     ::-webkit-scrollbar {
@@ -102,6 +101,9 @@ function markPage() {
   items.forEach(function (item, index) {
     item.rects.forEach((bbox) => {
       const newElement = document.createElement('div')
+      // Add a CSS class to the new <div> element
+      newElement.classList.add('ai-annotation-label-nexus');
+
       const borderColor = getRandomColor()
       newElement.style.outline = `2px dashed ${borderColor}`
       newElement.style.position = 'fixed'
@@ -147,31 +149,60 @@ function markPage() {
   return coordinates
 }
 
+function unmarkPage() {
+  Array.prototype.slice.call(document.querySelectorAll('*'))
+    .filter(function (element) {
+      return element.classList.contains('ai-annotation-label-nexus');
+    })
+    .forEach(function (element) {
+      document.body.removeChild(element);
+    });
+}
+
+
 export const useAnnotationStore = defineStore('annotation', () => {
   const isLoading = ref(false)
   async function handleMarkPage(): Promise<MarkPage | undefined> {
-    if (!isLoading.value) {
-      isLoading.value = true
+    if (isLoading.value) {
+      return undefined
+    }
+    isLoading.value = true
+    try {
       const [tab] = await chrome.tabs.query({ active: true })
       if (tab && tab.id) {
-        chrome.scripting.executeScript({ target: { tabId: tab.id }, func: markPage })
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: markPage
+        })
       }
       const pageDataPromise = new Promise<MarkPage>((resolve) => {
-        chrome.runtime.onMessage.addListener(async function (message) {
+        chrome.runtime.onMessage.addListener(async function handleMessage(message) {
           if (message.type === 'markPageCompleted') {
             const pageData = message.data
+            await new Promise((resolve) => setTimeout(resolve, 300)) // Delay for 300 milliseconds
             const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
               format: 'png'
             })
+
+            if (tab && tab.id) {
+              chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: unmarkPage
+              })
+            }
+
             resolve({ ...pageData, image: screenshotUrl } as MarkPage)
-            chrome.runtime.sendMessage({ type: 'screenshotCompleted' })
           }
         })
       })
+
+      return await pageDataPromise
+    } catch (error) {
+      console.error('Error occurred during handleMarkPage:', error)
+      return undefined
+    } finally {
       isLoading.value = false
-      return pageDataPromise
     }
-    return undefined
   }
 
   return {
