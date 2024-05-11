@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import PageAnnotator from '@/components/modules/annotator/PageAnnotator.vue';
+import ChatbotInterface from '@/components/modules/chatbot/ChatbotInterface.vue';
 </script>
-
 
 <template>
   <div>
-    <PageAnnotator />
+    <ChatbotInterface />
   </div>
 </template>
