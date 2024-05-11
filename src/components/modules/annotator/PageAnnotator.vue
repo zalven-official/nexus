@@ -21,7 +21,6 @@ async function markPage() {
       <Loader2 class="w-4 h-4 mr-2 animate-spin" v-if="annotationStore.isLoading" />
       Annotate
     </Button>
-
     <img alt="screenshot" :src="image" class="w-[500px]" />
   </div>
 </template>

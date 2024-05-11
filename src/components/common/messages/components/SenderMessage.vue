@@ -15,7 +15,7 @@ defineProps<IMessage>()
 <template>
   <div class="flex items-start m-2 my-5">
     <Avatar class="shadow-sm">
-      <AvatarImage :src="image" alt="sender-avatar" />
+      <AvatarImage :src="image" alt="sender-avatar" class="object-fill" />
       <AvatarFallback>{{ generateFallbackName(label) }}</AvatarFallback>
     </Avatar>
     <Accordion type="single" collapsible>
