@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-interface MarkPage {
+
+interface BBox {
   x: number
   y: number
   type: any
@@ -10,6 +11,12 @@ interface MarkPage {
   ariaLabel: any
   image: string
 }
+
+interface MarkPage {
+  bboxes: BBox
+  image: string
+}
+
 function markPage() {
   const customCSS = `
     ::-webkit-scrollbar {
@@ -178,7 +185,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
       const pageDataPromise = new Promise<MarkPage>((resolve) => {
         chrome.runtime.onMessage.addListener(async function handleMessage(message) {
           if (message.type === 'markPageCompleted') {
-            const pageData = message.data
+            const bboxes = message.data
             await new Promise((resolve) => setTimeout(resolve, 300)) // Delay for 300 milliseconds
             const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
               format: 'png'
@@ -191,7 +198,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
               })
             }
 
-            resolve({ ...pageData, image: screenshotUrl } as MarkPage)
+            resolve({ bboxes, image: screenshotUrl } as MarkPage)
           }
         })
       })
