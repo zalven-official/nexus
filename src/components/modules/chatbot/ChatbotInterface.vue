@@ -1,7 +1,13 @@
 <script setup lang="ts">
 // Depndencies
-import { PlayCircleIcon } from 'lucide-vue-next'
+import { PlayCircleIcon, PauseCircleIcon, RotateCwSquareIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
+
+// Utils
+import { generateFallbackName } from '@/lib';
+
+// Assets
+import nexusIcon from '@/assets/128x128.png'
 
 // Components
 import {
@@ -10,8 +16,8 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
 } from '@/components/ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import MessageBox from '@/components/common/messages/MessageBox.vue'
@@ -68,8 +74,13 @@ const sampleMessageBox = ref<IMessage[]>([
 <template a te>
   <Card>
     <CardHeader>
-      <CardTitle>Card Title</CardTitle>
-      <CardDescription>Card Description</CardDescription>
+      <CardDescription class="flex items-center">
+        <Avatar>
+          <AvatarImage :src="nexusIcon" alt="nexus-icon" class="bg-white" />
+          <AvatarFallback>{{ generateFallbackName("Nexus") }}</AvatarFallback>
+        </Avatar>
+        <p class="mx-3"> Nexus Voyager Agent</p>
+      </CardDescription>
     </CardHeader>
     <CardContent>
       <MessageBox :messages="sampleMessageBox" />
@@ -77,15 +88,15 @@ const sampleMessageBox = ref<IMessage[]>([
     <CardFooter>
       <div class="grid w-full gap-2">
         <Textarea placeholder="Type your message here." />
-        <div class="flex justify-between items-center">
-          <Button size="icon">
-            <PlayCircleIcon class="w-4 h-4" />
+        <div class="flex justify-center items-center gap-x-5">
+          <Button variant="ghost" size="icon">
+            <RotateCwSquareIcon class="w-5" />
           </Button>
-          <Button variant="outline" size="icon">
-            <PlayCircleIcon class="w-4 h-4" />
+          <Button variant="default" size="icon">
+            <PauseCircleIcon class="w-10" />
           </Button>
-          <Button variant="outline" size="icon">
-            <PlayCircleIcon class="w-4 h-4" />
+          <Button variant="ghost" size="icon">
+            <PlayCircleIcon class="w-5" />
           </Button>
         </div>
       </div>
