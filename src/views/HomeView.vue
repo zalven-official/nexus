@@ -17,13 +17,17 @@ const secretKeyStore = useSecretKeyStore()
   <div class="mb-25 relative pt-14">
     <OpenAiSecretKey />
     <div class="fixed bottom-0 right-0 z-50 w-full">
-      <div class="relative flex h-full  w-full p-5 justify-end">
+      <div class="relative flex h-full w-full justify-end p-5">
         <div className="absolute inset-0 bg-gradient-to-t from-background from-1%  z-0" />
-        <div class="absolute w-full h-10" />
+        <div class="absolute h-10 w-full" />
         <div class="z-10">
-          <Button class="w-32 shadow" @click="router.push('/chatbot')" :disabled="!secretKeyStore.canContinue">
+          <Button
+            class="w-32 shadow"
+            @click="router.push('/chatbot')"
+            :disabled="!secretKeyStore.canContinue"
+          >
             Continue
-            <LogInIcon class="w-4 h-4 ml-2" />
+            <LogInIcon class="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

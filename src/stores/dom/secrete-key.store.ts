@@ -28,8 +28,8 @@ export const useSecretKeyStore = defineStore('secret-key', () => {
     await chrome.storage.sync.set({ [openai_api_key]: encodeString(value.apiKey) })
     toast({
       title: 'Successfully Saved Open AI Token',
-      description: readableDateTime(new Date()),
-    });
+      description: readableDateTime(new Date())
+    })
   }
 
   return {
@@ -37,6 +37,6 @@ export const useSecretKeyStore = defineStore('secret-key', () => {
     openaiApiKey,
     canContinue,
     getSecretKeys,
-    saveOpenApiKey,
+    saveOpenApiKey
   }
 })

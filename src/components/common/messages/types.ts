@@ -2,14 +2,14 @@ export interface IMessage {
   image: string
   label: string
   message: string
-  datetime: Date,
+  datetime: Date
   sender: boolean
 }
 
 export interface IMessageSample {
   title: string
   description: string
-  message: string,
+  message: string
 }
 
 export interface IMessageBox {

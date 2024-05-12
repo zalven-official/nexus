@@ -8,7 +8,6 @@ import SenderMessage from '@/components/common/messages/components/SenderMessage
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 
 // Utils
 import { generateFallbackName } from '@/lib'
@@ -24,11 +23,10 @@ defineProps<IMessageBox>()
 defineEmits<{
   (e: 'update:modelValue', payload: string): void
 }>()
-
 </script>
 
 <template>
-  <ScrollArea class="h-[450px] w-full rounded-md  p-4 pt-5">
+  <ScrollArea class="h-[450px] w-full rounded-md p-4 pt-5">
     <template v-if="messages.length > 0">
       <template v-for="(message, index) in messages" :key="index">
         <template v-if="message.sender">
@@ -55,12 +53,12 @@ defineEmits<{
         <Card @click="$emit('update:modelValue', message.message)"
           class="group flex w-full items-center justify-between p-3 hover:bg-secondary"
           v-for="(message, index) in sampleMessages" :key="index">
-          <div class="max-w-72 mr-3 ">
-            <p class="text-sm font-bold truncate">{{ message.title }}</p>
-            <p class="text-sm opacity-50 truncate">{{ message.description }}</p>
+          <div class="mr-3 max-w-72">
+            <p class="truncate text-sm font-bold">{{ message.title }}</p>
+            <p class="truncate text-sm opacity-50">{{ message.description }}</p>
           </div>
           <div
-            class="opacity-0 cursor-default select-none group-hover:opacity-50 p-1 flex items-center justify-center rounded border border-primary">
+            class="flex cursor-default select-none items-center justify-center rounded border border-primary p-1 opacity-0 group-hover:opacity-50">
             <SendHorizonalIcon class="h-4 w-4" />
           </div>
         </Card>

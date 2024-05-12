@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-
 interface BBox {
   x: number
   y: number
@@ -109,7 +108,7 @@ function markPage() {
     item.rects.forEach((bbox) => {
       const newElement = document.createElement('div')
       // Add a CSS class to the new <div> element
-      newElement.classList.add('ai-annotation-label-nexus');
+      newElement.classList.add('ai-annotation-label-nexus')
 
       const borderColor = getRandomColor()
       newElement.style.outline = `2px dashed ${borderColor}`
@@ -157,15 +156,15 @@ function markPage() {
 }
 
 function unmarkPage() {
-  Array.prototype.slice.call(document.querySelectorAll('*'))
+  Array.prototype.slice
+    .call(document.querySelectorAll('*'))
     .filter(function (element) {
-      return element.classList.contains('ai-annotation-label-nexus');
+      return element.classList.contains('ai-annotation-label-nexus')
     })
     .forEach(function (element) {
-      document.body.removeChild(element);
-    });
+      document.body.removeChild(element)
+    })
 }
-
 
 export const useAnnotationStore = defineStore('annotation', () => {
   const isLoading = ref(false)
