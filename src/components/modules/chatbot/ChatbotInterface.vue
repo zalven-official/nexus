@@ -4,14 +4,10 @@ import { useField, useForm } from 'vee-validate'
 import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
-  PlayCircleIcon,
-  PauseCircleIcon,
-  RotateCwSquareIcon,
   Loader2,
   SendHorizonalIcon
 } from 'lucide-vue-next'
 import { ref } from 'vue'
-
 
 // Utils
 import { generateFallbackName, onSubmitEnter } from '@/lib'
@@ -109,17 +105,6 @@ const sampleMessages = ref<IMessageSample[]>([
           <p class="text-xs font-thin opacity-50 px-5 text-center">
             The chatbot can make mistakes, so it's important to verify critical information.
           </p>
-          <div class="flex items-center justify-center gap-x-5">
-            <!-- <Button variant="ghost" size="icon">
-              <RotateCwSquareIcon class="w-5" />
-            </Button>
-            <Button variant="default" size="icon">
-              <PauseCircleIcon class="w-10" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <PlayCircleIcon class="w-5" />
-            </Button> -->
-          </div>
         </div>
       </CardFooter>
     </Card>
