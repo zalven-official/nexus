@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Dependencies
-import { SendIcon } from 'lucide-vue-next'
+import { SendHorizonalIcon } from 'lucide-vue-next'
 
 // Components
 import ReceiverMessage from '@/components/common/messages/components/ReceiverMessage.vue'
@@ -20,10 +20,15 @@ import type { IMessageBox } from './types'
 import nexusIcon from '@/assets/nexus.png'
 
 defineProps<IMessageBox>()
+
+defineEmits<{
+  (e: 'update:modelValue', payload: string): void
+}>()
+
 </script>
 
 <template>
-  <ScrollArea class="h-[350px] w-full rounded-md border p-4">
+  <ScrollArea class="h-[450px] w-full rounded-md  p-4 pt-5">
     <template v-if="messages.length > 0">
       <template v-for="(message, index) in messages" :key="index">
         <template v-if="message.sender">
@@ -47,15 +52,17 @@ defineProps<IMessageBox>()
         <p class="w-full font-bold text-primary opacity-50">How can I help you today?</p>
       </div>
       <div class="flex flex-wrap items-center justify-center gap-3 rounded">
-        <Card class="group flex w-full items-center justify-between p-3 hover:bg-secondary"
+        <Card @click="$emit('update:modelValue', message.message)"
+          class="group flex w-full items-center justify-between p-3 hover:bg-secondary"
           v-for="(message, index) in sampleMessages" :key="index">
           <div class="max-w-72 mr-3 ">
             <p class="text-sm font-bold truncate">{{ message.title }}</p>
             <p class="text-sm opacity-50 truncate">{{ message.description }}</p>
           </div>
-          <Button variant="outline" size="icon" class="opacity-0 cursor-default select-none group-hover:opacity-100">
-            <SendIcon class="h-4 w-4" />
-          </Button>
+          <div
+            class="opacity-0 cursor-default select-none group-hover:opacity-50 p-1 flex items-center justify-center rounded border border-primary">
+            <SendHorizonalIcon class="h-4 w-4" />
+          </div>
         </Card>
       </div>
     </template>

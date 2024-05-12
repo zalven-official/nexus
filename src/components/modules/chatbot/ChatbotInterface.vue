@@ -1,18 +1,20 @@
 <script setup lang="ts">
 // Depndencies
-import { useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import {
   PlayCircleIcon,
   PauseCircleIcon,
   RotateCwSquareIcon,
+  Loader2,
   SendHorizonalIcon
 } from 'lucide-vue-next'
 import { ref } from 'vue'
 
+
 // Utils
-import { generateFallbackName } from '@/lib'
+import { generateFallbackName, onSubmitEnter } from '@/lib'
 
 // Assets
 import nexusIcon from '@/assets/nexus.png'
@@ -29,9 +31,10 @@ import { FormControl, FormField, FormItem } from '@/components/ui/form'
 // Types
 import type { IMessage, IMessageSample } from '@/components/common/messages'
 
+const isLoading = ref(false)
 const formSchema = toTypedSchema(
   zod.object({
-    message: zod.string().min(2).max(50)
+    message: zod.string()
   })
 )
 
@@ -39,8 +42,13 @@ const form = useForm({
   validationSchema: formSchema
 })
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log('Form submitted!', values)
+const { value: message } = useField('message');
+
+const onSubmit = form.handleSubmit(async (values) => {
+  if (isLoading.value) return
+  isLoading.value = true
+  message.value = ""
+  isLoading.value = false
 })
 
 const messages = ref<IMessage[]>([])
@@ -70,19 +78,19 @@ const sampleMessages = ref<IMessageSample[]>([
 </script>
 
 <template>
-  <form @submit="onSubmit" @keyup.enter="onSubmit">
-    <Card>
-      <CardHeader>
+  <form @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)">
+    <Card class="relative">
+      <CardHeader class="h-10 absolute backdrop-blur-sm bg-white/30 w-full z-50 py-0">
         <CardDescription class="flex items-center">
           <Avatar>
-            <AvatarImage :src="nexusIcon" alt="nexus-icon" class="bg-white" />
+            <AvatarImage :src="nexusIcon" alt="nexus-icon" />
             <AvatarFallback>{{ generateFallbackName('Nexus') }}</AvatarFallback>
           </Avatar>
-          <p class="mx-3">Nexus Voyager Agent</p>
+          <!-- <p class="mx-3 font-bold text-xs">Nexus Voyager Agent</p> -->
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <MessageBox :messages="messages" :sampleMessages="sampleMessages" />
+        <MessageBox :messages="messages" :sampleMessages="sampleMessages" v-model="message" />
       </CardContent>
       <CardFooter>
         <div class=" grid w-full gap-2">
@@ -92,16 +100,17 @@ const sampleMessages = ref<IMessageSample[]>([
                 <Textarea type="text" placeholder="Type your message here." v-bind="componentField"
                   class="row-span-1 resize-none pr-10" :rows="1" :grow="true" />
               </FormControl>
-              <Button type="submit" class="absolute bottom-1.5 right-1" size="xs">
-                <SendHorizonalIcon class="w-3" />
+              <Button type="submit" class="absolute bottom-1.5 right-1" size="xs" :disabled="!message">
+                <Loader2 class="w-4 h-4 animate-spin" v-if="isLoading" />
+                <SendHorizonalIcon class="w-3" v-else />
               </Button>
             </FormItem>
           </FormField>
           <p class="text-xs font-thin opacity-50 px-5 text-center">
             The chatbot can make mistakes, so it's important to verify critical information.
           </p>
-          <!-- <div class="flex items-center justify-center gap-x-5">
-            <Button variant="ghost" size="icon">
+          <div class="flex items-center justify-center gap-x-5">
+            <!-- <Button variant="ghost" size="icon">
               <RotateCwSquareIcon class="w-5" />
             </Button>
             <Button variant="default" size="icon">
@@ -109,8 +118,8 @@ const sampleMessages = ref<IMessageSample[]>([
             </Button>
             <Button variant="ghost" size="icon">
               <PlayCircleIcon class="w-5" />
-            </Button>
-          </div> -->
+            </Button> -->
+          </div>
         </div>
       </CardFooter>
     </Card>

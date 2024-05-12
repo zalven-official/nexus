@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { Primitive, type PrimitiveProps } from 'radix-vue'
+import { ref, watch, type HTMLAttributes, nextTick } from 'vue'
+import { type PrimitiveProps } from 'radix-vue'
 import { useVModel } from '@vueuse/core'
 import { cn } from '@/lib/utils'
 
@@ -24,18 +24,25 @@ const modelValue = useVModel(props, 'modelValue', emits, {
   defaultValue: props.defaultValue,
 })
 
-function adjustTextareaHeight(event: InputEvent) {
+const reference = ref()
+function adjustTextareaHeight(target: EventTarget) {
   if (!props.grow) return
-  const textarea = event.target as HTMLTextAreaElement;
+  const textarea = target as HTMLTextAreaElement;
   if (textarea) {
-    textarea.style.height = 'auto'; // Now TypeScript recognizes textarea as HTMLTextAreaElement
+    textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   }
 }
 
+watch(() => props.modelValue, () => {
+  nextTick(() => {
+    adjustTextareaHeight(reference.value)
+  });
+})
+
 </script>
 
 <template>
-  <Primitive v-model="modelValue" :as="as" :as-child="asChild" @input="adjustTextareaHeight"
+  <textarea v-model="modelValue" :as="as" :as-child="asChild" ref="reference"
     :class="cn('flex min-h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50', props.class)" />
 </template>

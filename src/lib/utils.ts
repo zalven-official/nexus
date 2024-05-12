@@ -62,3 +62,10 @@ export function readableTime(date: Date): string {
     return date.toLocaleDateString(undefined, options);
   }
 }
+
+
+export function onSubmitEnter(event: KeyboardEvent, callback: () => void): void {
+  if (!event.shiftKey) {
+    callback();
+  }
+}
