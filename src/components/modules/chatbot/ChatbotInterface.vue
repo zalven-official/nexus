@@ -12,86 +12,59 @@ import {
 import { ref } from 'vue'
 
 // Utils
-import { generateFallbackName } from '@/lib';
+import { generateFallbackName } from '@/lib'
 
 // Assets
 import nexusIcon from '@/assets/nexus.png'
 
 // Components
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Textarea } from '@/components/ui/textarea'
 
 import { Button } from '@/components/ui/button'
 import MessageBox from '@/components/common/messages/MessageBox.vue'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem } from '@/components/ui/form'
 
 // Types
-import type { IMessage } from '@/components/common/messages'
+import type { IMessage, IMessageSample } from '@/components/common/messages'
 
-const formSchema = toTypedSchema(zod.object({
-  message: zod.string().min(2).max(50),
-}))
+const formSchema = toTypedSchema(
+  zod.object({
+    message: zod.string().min(2).max(50)
+  })
+)
 
 const form = useForm({
-  validationSchema: formSchema,
+  validationSchema: formSchema
 })
 
 const onSubmit = form.handleSubmit((values) => {
   console.log('Form submitted!', values)
 })
 
-const messages = ref<IMessage[]>([
+const messages = ref<IMessage[]>([])
+const sampleMessages = ref<IMessageSample[]>([
   {
-    image: nexusIcon,
-    label: 'Zalven Dayao',
-    message: 'Hello!',
-    datetime: new Date('2024-05-11T10:30:00'),
-    sender: true,
+    title: 'Write a thank-you note',
+    description: 'to my interviewer',
+    message: 'Write 2-3 sentences to thank my interviewer, reiterating my excitement for the job opportunity while keeping it cool. Don\'t make it too formal.'
   },
   {
-    image: 'receiver-img.jpg',
-    label: 'Receiver',
-    message: 'How are you?',
-    datetime: new Date('2024-05-11T10:32:00'),
-    sender: false,
+    title: 'Design a programming game',
+    description: 'teach basics in a fun way',
+    message: 'Can you help me design a game concept that teaches basic programming skills? Start by asking me which programming language I\'d like to focus on.',
   },
   {
-    image: nexusIcon,
-    label: 'Zalven Dayao',
-    message: 'I\'m Fine , How bout you?',
-    datetime: new Date('2024-05-11T10:32:00'),
-    sender: true,
+    title: 'Plan a trip',
+    description: 'to expirience Seoul like a local',
+    message: 'I\'m planning a 4-day trip to Seoul.Can you suggest an itinerary that doesn\'t involve popular tourist attractions?'
   },
   {
-    image: 'receiver-img.jpg',
-    label: 'Receiver',
-    message: 'I\'m Also fine, Thank you!',
-    datetime: new Date('2024-05-11T10:32:00'),
-    sender: false,
-  },
-  {
-    image: nexusIcon,
-    label: 'Zalven Dayao',
-    message: `
-      Type Safety: Using PropType from Vue provides robust type checking for your props, making your component more reliable and easier to debug.
-      Flexibility: Optional props like userImage, otherUserImage allow for customization.
-      Reactivity: Leveraging the onMessageSent event and Vue's reactivity system makes it easy to handle new messages and update the UI.
-      Clear Separation of Concerns: The MessageBox focuses on displaying messages, while message sending logic is handled in the parent component.
-    `,
-    datetime: new Date('2024-05-11T10:32:00'),
-    sender: true,
-  },
+    title: 'Help me pick',
+    description: 'an outfit that will look good on camera',
+    message: 'I have a photoshoot tomorrow. Can you recommend me some colors and outfit options that will look good on camera?'
+  }
 ])
 
 </script>
@@ -103,28 +76,31 @@ const messages = ref<IMessage[]>([
         <CardDescription class="flex items-center">
           <Avatar>
             <AvatarImage :src="nexusIcon" alt="nexus-icon" class="bg-white" />
-            <AvatarFallback>{{ generateFallbackName("Nexus") }}</AvatarFallback>
+            <AvatarFallback>{{ generateFallbackName('Nexus') }}</AvatarFallback>
           </Avatar>
-          <p class="mx-3"> Nexus Voyager Agent</p>
+          <p class="mx-3">Nexus Voyager Agent</p>
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <MessageBox :messages="messages" />
+        <MessageBox :messages="messages" :sampleMessages="sampleMessages" />
       </CardContent>
       <CardFooter>
-        <div class="grid w-full gap-2">
+        <div class=" grid w-full gap-2">
           <FormField v-slot="{ componentField }" name="message">
             <FormItem class="relative">
               <FormControl>
                 <Textarea type="text" placeholder="Type your message here." v-bind="componentField"
-                  class="resize-none pr-10 row-span-1" :rows="1" :grow="true" />
+                  class="row-span-1 resize-none pr-10" :rows="1" :grow="true" />
               </FormControl>
               <Button type="submit" class="absolute bottom-1.5 right-1" size="xs">
                 <SendHorizonalIcon class="w-3" />
               </Button>
             </FormItem>
           </FormField>
-          <div class="flex justify-center items-center gap-x-5">
+          <p class="text-xs font-thin opacity-50 px-5 text-center">
+            The chatbot can make mistakes, so it's important to verify critical information.
+          </p>
+          <!-- <div class="flex items-center justify-center gap-x-5">
             <Button variant="ghost" size="icon">
               <RotateCwSquareIcon class="w-5" />
             </Button>
@@ -134,7 +110,7 @@ const messages = ref<IMessage[]>([
             <Button variant="ghost" size="icon">
               <PlayCircleIcon class="w-5" />
             </Button>
-          </div>
+          </div> -->
         </div>
       </CardFooter>
     </Card>
