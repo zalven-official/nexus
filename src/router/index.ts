@@ -1,17 +1,15 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
-import { secretkeyMiddleware } from '@/middleware/index'
 
 const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/chatbot',
+    name: 'chatbot',
+    component: () => import('@/views/ChatBotView.vue'),
+  },
   {
     path: '/',
     name: 'home',
     component: () => import('@/views/HomeView.vue'),
-    beforeEnter: [secretkeyMiddleware]
-  },
-  {
-    path: '/secret-keys',
-    name: 'secret-keys',
-    component: () => import('@/views/SecretKeysView.vue'),
   }
 ]
 

@@ -87,7 +87,6 @@ function token(): string {
 /**
  * Decrypts a string using AES encryption.
  * @param {string} value - The encrypted string to decrypt.
- * @param {string} salt - The salt used for encryption.
  * @returns {string} The decrypted string.
  */
 export function decodeString(value: string): string {
@@ -99,7 +98,6 @@ export function decodeString(value: string): string {
 /**
  * Encrypts a string using AES encryption.
  * @param {string} value - The string to encrypt.
- * @param {string} salt - The salt used for encryption.
  * @returns {string} The encrypted string.
  */
 export function encodeString(value: string): string {
@@ -116,4 +114,24 @@ export function encodeString(value: string): string {
 export function stringToHash(inputString: string): string {
   const hash = CryptoJS.SHA256(inputString);
   return hash.toString(CryptoJS.enc.Hex);
+}
+
+
+/**
+ * Formats a Date object into a human-readable date and time string.
+ * The string includes the full month name, day, year, hour (in 12-hour format), and minutes.
+ * Example output: "May 12, 2024, 02:30 PM"
+ * @param {Date} dateTime - The Date object to format.
+ * @returns {string} A formatted date and time string in English readable format.
+ */
+export function readableDateTime(dateTime: Date): string {
+  const formattedDateTime = dateTime.toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return formattedDateTime;
 }

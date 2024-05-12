@@ -9,7 +9,7 @@ import {
 import { ref } from 'vue'
 
 // Utils
-import { onSubmitEnter, encodeString, decodeString } from '@/lib'
+import { onSubmitEnter } from '@/lib'
 
 // Assets
 import { Textarea } from '@/components/ui/textarea'
@@ -64,13 +64,12 @@ const sampleMessages = ref<IMessageSample[]>([
     message: 'I have a photoshoot tomorrow. Can you recommend me some colors and outfit options that will look good on camera?'
   }
 ])
-
 </script>
 
 <template>
-  <form @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)">
+  <form @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)" class="overflow-y-hidden">
     <MessageBox :messages="messages" :sampleMessages="sampleMessages" v-model="message" />
-    <FormField v-slot="{ componentField }" name="message">
+    <FormField v-slot="{ componentField }" name="message" class="p-2">
       <FormItem class="relative">
         <FormControl>
           <Textarea type="text" placeholder="Type your message here." v-bind="componentField"
