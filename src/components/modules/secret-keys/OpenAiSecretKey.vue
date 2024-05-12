@@ -53,8 +53,11 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
-  <form class="my-5 h-48 w-full rounded-md bg-gradient-to-r from-transparent via-green-700 to-green-500 p-0.5"
-    @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)">
+  <form
+    class="my-5 h-48 w-full rounded-md bg-gradient-to-r from-transparent via-green-700 to-green-500 p-0.5"
+    @submit="onSubmit"
+    @keypress.enter="onSubmitEnter($event, onSubmit)"
+  >
     <div class="relative h-full w-full items-center justify-center rounded-sm bg-background p-4">
       <div className="absolute inset-0 bg-gradient-to-l from-green-500 from-1% opacity-50 z-0" />
       <FormField v-slot="{ componentField }" name="apiKey" class="z-10">
@@ -69,7 +72,12 @@ const onSubmit = handleSubmit((values) => {
                     </TooltipTrigger>
                     <TooltipContent>
                       <div class="w-64 p-4">
-                        <p class="text-sm font-semibold">Open API Key</p>
+                        <a
+                          class="text-sm font-semibold"
+                          href="https://platform.openai.com/api-keys"
+                          target="_blank"
+                          >OpenAI API Key</a
+                        >
                         <p class="text-xs opacity-70">
                           Please enter your OpenAI API key to use the chatbot.
                         </p>
@@ -88,8 +96,11 @@ const onSubmit = handleSubmit((values) => {
               </p>
               <p class="text-xs opacity-80">
                 To get API key, visit
-                <a class="font-bold text-primary text-opacity-100" href="https://platform.openai.com/api-keys"
-                  target="_blank">
+                <a
+                  class="font-bold text-primary text-opacity-100"
+                  href="https://platform.openai.com/api-keys"
+                  target="_blank"
+                >
                   Open AI
                 </a>
               </p>
@@ -97,9 +108,20 @@ const onSubmit = handleSubmit((values) => {
           </FormLabel>
           <FormControl>
             <div class="z-10 flex">
-              <Input class="z-10" :type="visible ? 'text' : 'password'" placeholder="open api key..."
-                v-bind="componentField" :default-value="apiKey" />
-              <Button variant="default" size="icon" @click="visible = !visible" type="button" class="z-10">
+              <Input
+                class="z-10"
+                :type="visible ? 'text' : 'password'"
+                placeholder="open api key..."
+                v-bind="componentField"
+                :default-value="apiKey"
+              />
+              <Button
+                variant="default"
+                size="icon"
+                @click="visible = !visible"
+                type="button"
+                class="z-10"
+              >
                 <EyeIcon class="h-4 w-4" v-if="visible" />
                 <EyeOff class="h-4 w-4" v-else />
               </Button>

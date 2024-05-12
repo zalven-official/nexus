@@ -14,7 +14,7 @@ const secretKeyStore = useSecretKeyStore()
 </script>
 
 <template>
-  <div class="mb-25 relative pt-14">
+  <div class="relative mb-20 pt-14">
     <OpenAiSecretKey />
     <div class="fixed bottom-0 right-0 z-50 w-full">
       <div class="relative flex h-full w-full justify-end p-5">

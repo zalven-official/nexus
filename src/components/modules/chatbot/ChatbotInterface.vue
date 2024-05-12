@@ -74,19 +74,19 @@ const sampleMessages = ref<IMessageSample[]>([
     class="overflow-y-hidden"
   >
     <MessageBox :messages="messages" :sampleMessages="sampleMessages" v-model="message" />
-    <FormField v-slot="{ componentField }" name="message" class="p-2">
-      <FormItem class="relative">
+    <FormField v-slot="{ componentField }" name="message">
+      <FormItem class="relative px-5">
         <FormControl>
           <Textarea
             type="text"
             placeholder="Type your message here."
             v-bind="componentField"
-            class="row-span-1 my-5 resize-none pr-10"
+            class="row-span-1 mb-5 resize-none pr-10"
             :rows="1"
             :grow="true"
           />
         </FormControl>
-        <Button type="submit" class="absolute bottom-1.5 right-1" size="xs" :disabled="!message">
+        <Button type="submit" class="absolute bottom-1.5 right-7" size="xs" :disabled="!message">
           <Loader2 class="h-4 w-4 animate-spin" v-if="isLoading" />
           <SendHorizonalIcon class="w-3" v-else />
         </Button>
