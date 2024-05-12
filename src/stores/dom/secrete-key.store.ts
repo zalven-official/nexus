@@ -13,7 +13,6 @@ export const useSecretKeyStore = defineStore('secret-key', () => {
   const isLoading = ref(false)
   const { toast } = useToast()
 
-
   const openai_api_key = stringToHash(SecretKeyTypes.OPENAI_API_KEY)
   const canContinue = computed(() => openaiApiKey.value)
 
