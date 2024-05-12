@@ -1,5 +1,8 @@
+import CryptoJS from 'crypto-js';
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+
+
 
 // This is for ShadCN
 export function cn(...inputs: ClassValue[]) {
@@ -63,9 +66,54 @@ export function readableTime(date: Date): string {
   }
 }
 
-
+/**
+ * Executes a callback function when the Enter key is pressed without the Shift key.
+ * Prevents the default behavior of the Enter key.
+ * 
+ * @param {KeyboardEvent} event - The keyboard event object.
+ * @param {() => void} callback - The callback function to execute when Enter is pressed without Shift.
+ * @returns {void}
+ */
 export function onSubmitEnter(event: KeyboardEvent, callback: () => void): void {
   if (!event.shiftKey) {
     callback();
   }
+}
+
+function token(): string {
+  return stringToHash("2Po0hyFmqEGvHqAPYze9ogKvobG8PsgAklIHBcKEqR29KIut3fp1PBp74mTXP6c4C2yuVfCxg6ES4W85JE3BXl1ueqETAYw7EuFr7xKUIqoOOcqpC8U8xhmC9MCDVUIQIAZ8kTm7Ue8uDv3gPAWj8PvbpQ3SaLpcoBhkFhaAUZ2OtaGRjiDfWR5PBz20CZGOBYt3qzSTDOzuwL0YmEPQHvQXVJBrWuF0h3BLhLgGMlWGkJLZW28CJP6opLBvqM96ZmqHW9ULwmw7LYLKrp84lrdU5EYXGrhtLaeuakuRzC93GcqgWZSX957bHZ19dRioPrCWJOetGCDg5RFCFfJsdWbPrMCgcwKmasCqsP4TTSUqwiMF9Z9ad1jsHQflz82tUsZAqLYqWLzVwZFsCJPyaMaVIJ424p1974SKRugwOJOKCUQa5pROo6AoxJsH3C5c1l8p2MDgxwsYSjVwAtb5awpHo1Y0qVF90pGLmsE5qW9xKDm4TxMdsVeysHgb7yBL")
+}
+
+/**
+ * Decrypts a string using AES encryption.
+ * @param {string} value - The encrypted string to decrypt.
+ * @param {string} salt - The salt used for encryption.
+ * @returns {string} The decrypted string.
+ */
+export function decodeString(value: string): string {
+  const bytes = CryptoJS.AES.decrypt(value, token());
+  const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+  return decryptedData;
+}
+
+/**
+ * Encrypts a string using AES encryption.
+ * @param {string} value - The string to encrypt.
+ * @param {string} salt - The salt used for encryption.
+ * @returns {string} The encrypted string.
+ */
+export function encodeString(value: string): string {
+  const ciphertext = CryptoJS.AES.encrypt(value, token()).toString();
+  return ciphertext;
+}
+
+
+/**
+ * Converts a string to its SHA-256 hash value represented as a hexadecimal string.
+ * @param {string} inputString The input string to be hashed.
+ * @returns {string} The SHA-256 hash of the input string in hexadecimal format.
+ */
+export function stringToHash(inputString: string): string {
+  const hash = CryptoJS.SHA256(inputString);
+  return hash.toString(CryptoJS.enc.Hex);
 }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Depndencies
 import { useField, useForm } from 'vee-validate'
 import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -10,14 +9,9 @@ import {
 import { ref } from 'vue'
 
 // Utils
-import { generateFallbackName, onSubmitEnter } from '@/lib'
+import { onSubmitEnter, encodeString, decodeString } from '@/lib'
 
 // Assets
-import nexusIcon from '@/assets/nexus.png'
-
-// Components
-import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Textarea } from '@/components/ui/textarea'
 
 import { Button } from '@/components/ui/button'
@@ -75,38 +69,21 @@ const sampleMessages = ref<IMessageSample[]>([
 
 <template>
   <form @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)">
-    <Card class="relative">
-      <CardHeader class="h-10 absolute backdrop-blur-sm bg-white/30 w-full z-50 py-0">
-        <CardDescription class="flex items-center">
-          <Avatar>
-            <AvatarImage :src="nexusIcon" alt="nexus-icon" />
-            <AvatarFallback>{{ generateFallbackName('Nexus') }}</AvatarFallback>
-          </Avatar>
-          <!-- <p class="mx-3 font-bold text-xs">Nexus Voyager Agent</p> -->
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <MessageBox :messages="messages" :sampleMessages="sampleMessages" v-model="message" />
-      </CardContent>
-      <CardFooter>
-        <div class=" grid w-full gap-2">
-          <FormField v-slot="{ componentField }" name="message">
-            <FormItem class="relative">
-              <FormControl>
-                <Textarea type="text" placeholder="Type your message here." v-bind="componentField"
-                  class="row-span-1 resize-none pr-10" :rows="1" :grow="true" />
-              </FormControl>
-              <Button type="submit" class="absolute bottom-1.5 right-1" size="xs" :disabled="!message">
-                <Loader2 class="w-4 h-4 animate-spin" v-if="isLoading" />
-                <SendHorizonalIcon class="w-3" v-else />
-              </Button>
-            </FormItem>
-          </FormField>
-          <p class="text-xs font-thin opacity-50 px-5 text-center">
-            The chatbot can make mistakes, so it's important to verify critical information.
-          </p>
-        </div>
-      </CardFooter>
-    </Card>
+    <MessageBox :messages="messages" :sampleMessages="sampleMessages" v-model="message" />
+    <FormField v-slot="{ componentField }" name="message">
+      <FormItem class="relative">
+        <FormControl>
+          <Textarea type="text" placeholder="Type your message here." v-bind="componentField"
+            class="row-span-1 resize-none pr-10 my-5" :rows="1" :grow="true" />
+        </FormControl>
+        <Button type="submit" class="absolute bottom-1.5 right-1" size="xs" :disabled="!message">
+          <Loader2 class="w-4 h-4 animate-spin" v-if="isLoading" />
+          <SendHorizonalIcon class="w-3" v-else />
+        </Button>
+      </FormItem>
+    </FormField>
+    <p class="text-xs font-thin opacity-50 px-5 text-center m-5">
+      The chatbot can make mistakes, so it's important to verify critical information.
+    </p>
   </form>
 </template>
