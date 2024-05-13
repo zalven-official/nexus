@@ -11,7 +11,22 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["scripting", "activeTab", "tabs", "storage"],
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "tabs",
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
   "host_permissions": ["http://*/*", "https://*/*"],
-  "browser_action": {}
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
 }
