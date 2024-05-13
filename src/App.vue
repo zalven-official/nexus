@@ -34,7 +34,9 @@ onMounted(() => {
 <template>
   <main class="w-[30rem]" v-if="!secretKeyStore.isLoading">
     <Card class="relative">
-      <CardHeader class="fixed top-0 z-50 m-0 h-16 w-full bg-secondary/30 p-4 py-0 backdrop-blur-sm">
+      <CardHeader
+        class="fixed top-0 z-50 m-0 h-16 w-full bg-secondary/30 p-4 py-0 backdrop-blur-sm"
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-background from-1%  z-0" />
         <CardDescription class="z-10 flex h-full items-center justify-between">
           <Avatar class="h-10 w-10" @click="router.push('/')">

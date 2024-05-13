@@ -13,16 +13,16 @@ export type Colors =
   | 'fuchsia'
   | 'cyan'
   | 'white'
-  | 'black';
+  | 'black'
 
 interface ColorEntry {
-  from_normal: string;
-  to_normal: string;
-  via_normal: string;
+  from_normal: string
+  to_normal: string
+  via_normal: string
 }
 
 interface ColorTheme {
-  [color: string]: ColorEntry;
+  [color: string]: ColorEntry
 }
 
 export const colorThemes: ColorTheme = {
@@ -45,5 +45,5 @@ export const colorThemes: ColorTheme = {
     from_normal: 'from-green-500',
     to_normal: 'to-green-500',
     via_normal: 'via-green-300'
-  },
-};
+  }
+}
