@@ -37,6 +37,7 @@ interface Props extends PrimitiveProps {
   description: string,
   link: string,
   color: Colors | 'purple'
+  avatar: string,
 }
 
 const props = withDefaults(defineProps<Props>(), {})
@@ -83,7 +84,7 @@ const onSubmit = handleSubmit((values) => {
                   <Tooltip>
                     <TooltipTrigger as-child>
                       <Avatar class="h-10 w-10 mr-3 cursor-help">
-                        <AvatarImage :src="''" alt="nexus-icon" />
+                        <AvatarImage :src="avatar" alt="nexus-icon" />
                         <AvatarFallback>{{ generateFallbackName(productName) }}</AvatarFallback>
                       </Avatar>
                     </TooltipTrigger>
