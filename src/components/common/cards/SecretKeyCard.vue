@@ -46,7 +46,7 @@ const isLoading = ref(false)
 
 const formSchema = toTypedSchema(
   z.object({
-    apiKey: z.string().min(2).max(50)
+    apiKey: z.string().min(2).max(500)
   })
 )
 
@@ -80,7 +80,7 @@ const onSubmit = handleSubmit((values) => {
       <FormField v-slot="{ componentField }" name="apiKey" class="z-10">
         <FormItem>
           <FormLabel>
-            <div class="z-10 flex items-center justify-between p-3 text-xs">
+            <div class="justify-right z-10 flex items-center p-3 text-xs">
               <p class="z-10 flex items-center">
                 <TooltipProvider>
                   <Tooltip>

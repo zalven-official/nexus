@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-interface BBox {
+export interface BBox {
   x: number
   y: number
   type: any
@@ -11,10 +11,16 @@ interface BBox {
   image: string
 }
 
-interface MarkPage {
+export interface MarkPage {
   bboxes: BBox
   image: string
 }
+
+/*
+  Browser Annotations
+    This function annotates all buttons, inputs, text areas, etc. with numbered bounding boxes. 
+    GPT-4V then just has to refer to a bounding box when taking actions, reducing the complexity of the overall task.
+*/
 
 function markPage() {
   const customCSS = `
@@ -201,7 +207,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
           }
         })
       })
-
+      isLoading.value = false
       return await pageDataPromise
     } catch (error) {
       console.error('Error occurred during handleMarkPage:', error)

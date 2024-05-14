@@ -4,6 +4,7 @@ import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Loader2, SendHorizonalIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
+import type { PrimitiveProps } from 'radix-vue'
 
 // Utils
 import { onSubmitEnter } from '@/lib'
@@ -18,53 +19,36 @@ import { FormControl, FormField, FormItem } from '@/components/ui/form'
 // Types
 import type { IMessage, IMessageSample } from '@/components/common/messages'
 
+interface Props extends PrimitiveProps {
+  messages: IMessage[]
+  sampleMessages: IMessageSample[]
+  save: (value: { message: string }) => Promise<void>
+}
+
+const props = withDefaults(defineProps<Props>(), {})
 const isLoading = ref(false)
 const formSchema = toTypedSchema(
   zod.object({
     message: zod.string()
   })
 )
-
 const form = useForm({
   validationSchema: formSchema
 })
 
 const { value: message } = useField('message')
-
 const onSubmit = form.handleSubmit(async (values) => {
   if (isLoading.value) return
   isLoading.value = true
-  message.value = ''
-  isLoading.value = false
+  await props
+    .save(values)
+    .then(() => {
+      message.value = ''
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
 })
-
-const messages = ref<IMessage[]>([])
-const sampleMessages = ref<IMessageSample[]>([
-  {
-    title: 'Write a thank-you note',
-    description: 'to my interviewer',
-    message:
-      "Write 2-3 sentences to thank my interviewer, reiterating my excitement for the job opportunity while keeping it cool. Don't make it too formal."
-  },
-  {
-    title: 'Design a programming game',
-    description: 'teach basics in a fun way',
-    message:
-      "Can you help me design a game concept that teaches basic programming skills? Start by asking me which programming language I'd like to focus on."
-  },
-  {
-    title: 'Plan a trip',
-    description: 'to expirience Seoul like a local',
-    message:
-      "I'm planning a 4-day trip to Seoul.Can you suggest an itinerary that doesn't involve popular tourist attractions?"
-  },
-  {
-    title: 'Help me pick',
-    description: 'an outfit that will look good on camera',
-    message:
-      'I have a photoshoot tomorrow. Can you recommend me some colors and outfit options that will look good on camera?'
-  }
-])
 </script>
 
 <template>
