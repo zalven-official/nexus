@@ -17,16 +17,20 @@ export const useSecretKeyStore = defineStore('secret-key', () => {
   const canContinue = computed(() => openaiApiKey.value)
 
   async function getSecretKeys() {
-    isLoading.value = true
-    const data = await chrome.storage.sync.get(openai_api_key)
-    const token = data[openai_api_key] as string
-    openaiApiKey.value = decodeString(token)
-    isLoading.value = false
+    // isLoading.value = true
+    // const data = await chrome.storage.sync.get(openai_api_key)
+    // const token = data[openai_api_key] as string
+    // if (token) {
+    //   openaiApiKey.value = decodeString(token)
+    // }
+    // isLoading.value = false
+    openaiApiKey.value = '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'
   }
 
   async function saveOpenApiKey(value: { apiKey: string }) {
-    await chrome.storage.sync.set({ [openai_api_key]: encodeString(value.apiKey) })
-    openaiApiKey.value = value.apiKey
+    // await chrome.storage.sync.set({ [openai_api_key]: encodeString(value.apiKey) })
+    // openaiApiKey.value = value.apiKey
+    openaiApiKey.value = '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'
     toast({
       title: 'Successfully Saved Open AI Token',
       description: readableDateTime(new Date())

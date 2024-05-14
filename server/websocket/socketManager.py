@@ -1,8 +1,6 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('..', 'config')))
-
 import asyncio
 import redis.asyncio as aioredis
+import json
 from fastapi import WebSocket
 
 

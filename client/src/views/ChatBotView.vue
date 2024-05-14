@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Dependencies
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 // Components
 import ChatbotInterface from '@/components/modules/chatbot/ChatbotInterface.vue'
 
@@ -40,9 +40,16 @@ const sampleMessages = ref<IMessageSample[]>([
 ])
 
 async function submit(value: { message: string }) {
-  // const graph = voyagerStore.KnowledgeGraph()
-  // console.log(graph)
+  voyagerStore.sendMessage(value)
 }
+onMounted(() => {
+  voyagerStore.connect(123, 456)
+})
+
+onUnmounted(() => {
+  voyagerStore.disconnect()
+})
+
 </script>
 
 <template>
