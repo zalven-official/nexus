@@ -2,9 +2,9 @@ import logging
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from websocket.socketManager import WebSocketManager
-from app.chatbotManager import ChatbotManager
-import json
+from websocket.socket_manager import WebSocketManager
+from app.controller.chatbot_controller import ChatbotController
+
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -27,43 +27,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class ChatbotManager:
-  _instance = None
-
-  def __new__(cls, socket_manager: WebSocketManager):
-    if cls._instance is None:
-      cls._instance = super(ChatbotManager, cls).__new__(cls)
-      cls._instance.socket_manager = socket_manager
-    return cls._instance
-
-  async def user_connected(self, websocket: WebSocket, room_id: str, user_id: int):
-    message = {
-      "user_id": user_id,
-      "room_id": room_id,
-      "message": f"User {user_id} connected to room - {room_id}"
-    }
-    await self.socket_manager.broadcast_to_room(room_id, json.dumps(message))
-
-  async def user_broadcasting(self, websocket: WebSocket, room_id: str, user_id: int):
-    data = await websocket.receive_text()
-    message = {
-      "user_id": user_id,
-      "room_id": room_id,
-      "message": data
-    }
-    await self.socket_manager.broadcast_to_room(room_id, json.dumps(message))
-
-  async def user_disconnected(self, websocket: WebSocket, room_id: str, user_id: int):
-    await self.socket_manager.remove_user_from_room(room_id, websocket)
-    message = {
-      "user_id": user_id,
-      "room_id": room_id,
-      "message": f"User {user_id} disconnected from room - {room_id}"
-    }
-    await self.socket_manager.broadcast_to_room(room_id, json.dumps(message))
 
 socket_manager = WebSocketManager()
-chatbot_manager = ChatbotManager(socket_manager)
+chatbot_manager = ChatbotController(socket_manager)
       
 @app.websocket("/api/v1/ws/{room_id}/{user_id}")
 async def websocket_endpoint(websocket: WebSocket, room_id: str, user_id: int):

@@ -1,20 +1,18 @@
 import sys
 import os
+from fastapi import WebSocket
+from websocket.socket_manager import WebSocketManager
+import json
+
+# Add the configuration path to sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 config_path = os.path.abspath(os.path.join(current_dir, '..', 'config'))
 sys.path.append(config_path)
-from fastapi import WebSocket
-from websocket.socketManager import WebSocketManager
-import json
 
-class ChatbotManager:
+class ChatbotController:
   _instance = None
-
-  def __new__(cls, socket_manager: WebSocketManager):
-    if cls._instance is None:
-      cls._instance = super(ChatbotManager, cls).__new__(cls)
-      cls._instance.socket_manager = socket_manager
-    return cls._instance
+  def __init__(self, socket_manager: WebSocketManager):
+    self.socket_manager = socket_manager
 
   async def user_connected(self, websocket: WebSocket, room_id: str, user_id: int):
     message = {
