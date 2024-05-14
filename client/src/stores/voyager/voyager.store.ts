@@ -4,11 +4,18 @@ import { defineStore } from 'pinia'
 
 // Store
 import { useAnnotationStore } from '@/stores/dom/annotation.store'
-import { useSecretKeyStore } from '../dom/secrete-key.store'
+import { useSecretKeyStore } from '../dom/secret-key.store'
 
 // Types
 import type { IMessage, IMessageSample } from '@/components/common/messages'
 import { computed, ref } from 'vue'
+
+interface VoyageerPayload {
+  question: string;
+  page: number;
+  api_key?: string | null;
+  max_steps?: number;
+}
 
 export const useVoyagerStore = defineStore('voyager', () => {
   const annotationStore = useAnnotationStore()
@@ -42,7 +49,7 @@ export const useVoyagerStore = defineStore('voyager', () => {
     }
   }
 
-  async function sendMessage(value: { message: string }) {
+  async function sendMessage(value: VoyageerPayload) {
     if (websocket.value && websocket.value.readyState === WebSocket.OPEN) {
       websocket.value.send(JSON.stringify(value))
     } else {

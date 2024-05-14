@@ -1,14 +1,16 @@
-import sys
-import os
 from fastapi import WebSocket
 from websocket.socket_manager import WebSocketManager
+from typing import List, Optional, TypedDict
+from app.services.voyager.voyager_service import VoyageerPayload, VoyagerService
 import json
 
-# Add the configuration path to sys.path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.abspath(os.path.join(current_dir, '..', 'config'))
-sys.path.append(config_path)
-
+class VoyageerPayload(TypedDict):
+  question: str
+  api_key: Optional[str]
+  page: int
+  max_steps: int
+  
+  
 class ChatbotController:
   _instance = None
   def __init__(self, socket_manager: WebSocketManager):
@@ -29,6 +31,14 @@ class ChatbotController:
       "room_id": room_id,
       "message": data
     }
+    
+    # Extract data
+    data_dict = json.loads(data)
+    payload = VoyageerPayload(**data_dict)
+
+    # Call agent
+    voyager = VoyagerService(self.socket_manager)
+    await voyager.call_agent(payload, websocket, room_id, user_id)
     await self.socket_manager.broadcast_to_room(room_id, json.dumps(message))
 
   async def user_disconnected(self, websocket: WebSocket, room_id: str, user_id: int):

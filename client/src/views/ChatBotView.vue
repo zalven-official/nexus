@@ -6,11 +6,14 @@ import ChatbotInterface from '@/components/modules/chatbot/ChatbotInterface.vue'
 
 // Store
 import { useVoyagerStore } from '@/stores/voyager/voyager.store'
+import { useSecretKeyStore } from '@/stores/dom/secret-key.store'
 
 // Types
 import type { IMessage, IMessageSample } from '@/components/common/messages'
 
 const voyagerStore = useVoyagerStore()
+const secretKeyStore = useSecretKeyStore()
+
 const messages = ref<IMessage[]>([])
 const sampleMessages = ref<IMessageSample[]>([
   {
@@ -40,15 +43,12 @@ const sampleMessages = ref<IMessageSample[]>([
 ])
 
 async function submit(value: { message: string }) {
-  voyagerStore.sendMessage(value)
+  voyagerStore.sendMessage({
+    question: value.message,
+    page: 0,
+    api_key: secretKeyStore.openaiApiKey
+  })
 }
-onMounted(() => {
-  voyagerStore.connect(123, 456)
-})
-
-onUnmounted(() => {
-  voyagerStore.disconnect()
-})
 
 </script>
 

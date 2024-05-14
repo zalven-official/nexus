@@ -8,7 +8,7 @@ import OpenAiSecretKey from '@/components/modules/secret-keys/OpenAiSecretKey.vu
 import Button from '@/components/ui/button/Button.vue'
 
 // Store
-import { useSecretKeyStore } from '@/stores/dom/secrete-key.store'
+import { useSecretKeyStore } from '@/stores/dom/secret-key.store'
 const router = useRouter()
 const secretKeyStore = useSecretKeyStore()
 </script>
@@ -21,11 +21,7 @@ const secretKeyStore = useSecretKeyStore()
         <div className="absolute inset-0 bg-gradient-to-t from-background from-1%  z-0" />
         <div class="absolute h-10 w-full" />
         <div class="z-10">
-          <Button
-            class="w-32 shadow"
-            @click="router.push('/chatbot')"
-            :disabled="!secretKeyStore.canContinue"
-          >
+          <Button class="w-32 shadow" @click="router.push('/chatbot')" :disabled="!secretKeyStore.canContinue">
             Continue
             <LogInIcon class="ml-2 h-4 w-4" />
           </Button>

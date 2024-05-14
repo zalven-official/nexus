@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Dependencies
 import { RouterView } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 // Components
@@ -17,8 +17,10 @@ import { generateFallbackName } from '@/lib'
 import nexusIcon from '@/assets/nexus.png'
 
 // Store
-import { useSecretKeyStore } from './stores/dom/secrete-key.store'
+import { useSecretKeyStore } from './stores/dom/secret-key.store'
+import { useVoyagerStore } from './stores/voyager/voyager.store'
 
+const voyagerStore = useVoyagerStore()
 const secretKeyStore = useSecretKeyStore()
 const router = useRouter()
 
@@ -28,15 +30,19 @@ async function fetch() {
 
 onMounted(() => {
   fetch()
+  voyagerStore.connect(123, 456)
 })
+
+onUnmounted(() => {
+  voyagerStore.disconnect()
+})
+
 </script>
 
 <template>
   <main class="w-[30rem]" v-if="!secretKeyStore.isLoading">
     <Card class="relative">
-      <CardHeader
-        class="fixed top-0 z-50 m-0 h-16 w-full bg-secondary/30 p-4 py-0 backdrop-blur-sm"
-      >
+      <CardHeader class="fixed top-0 z-50 m-0 h-16 w-full bg-secondary/30 p-4 py-0 backdrop-blur-sm">
         <div className="absolute inset-0 bg-gradient-to-b from-background from-1%  z-0" />
         <CardDescription class="z-10 flex h-full items-center justify-between">
           <Avatar class="h-10 w-10" @click="router.push('/')">
