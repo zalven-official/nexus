@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "types": ["@types/chrome"],
+    "strict": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

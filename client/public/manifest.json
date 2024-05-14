@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": " Nexus Annotator",
+  "version": "1.0.0",
+  "description": "Data Annotator for data collection",
+  "author": "Zalven Dayao",
+  "icons": {
+    "32": "assets/images/icons/32x32.png",
+    "128": "assets/images/icons/128x128.png"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "tabs",
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
