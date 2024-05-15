@@ -46,10 +46,9 @@ async function submit(value: { message: string }) {
   voyagerStore.sendMessage({
     question: value.message,
     page: 0,
-    api_key: secretKeyStore.openaiApiKey
+    apiKey: secretKeyStore.openaiApiKey
   })
 }
-
 </script>
 
 <template>
