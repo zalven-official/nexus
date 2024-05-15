@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /// <reference types="chrome" />
 // Dependencies
 import { defineStore } from 'pinia'
@@ -17,8 +18,9 @@ import { useSecretKeyStore } from '../dom/secret-key.store'
 import type { IMessage, IMessageSample } from '@/components/common/messages'
 import { computed, ref } from 'vue'
 
-// Services
+// Services & Core
 import { OpenAIClient } from '@/services/openai.services'
+import { GraphBuilder } from '@/core/graph.core'
 
 // Define Graph State
 interface VoyagerPayload {
@@ -58,13 +60,39 @@ export const useVoyagerStore = defineStore('voyager', () => {
   async function goBack(state: AgentState) { }
   async function toGoogle(state: AgentState) { }
 
+  // Agent Definitions ----------------------------------------------------------------------
+  async function annotate(state: AgentState) { }
+  async function formatDescriptions(state: AgentState) { }
+  async function formatPrompt(state: AgentState) { }
+  async function chatModel(state: AgentState) { }
+  async function stringOutputParser(state: AgentState) { }
+  async function parser(sate: String) { }
+  // Agent 
+  async function voyagerAgent() { }
+
+  // Graph builder ----------------------------------------------------------------------
+  // async function graphBuilder() {
+  //   // Example usage:
+  //   const myGraph = new GraphBuilder()
+  //     .vertex('A')
+  //     .vertex('B')
+  //     .vertex('C')
+  //     .edge('A', 'B')
+  //     .edge('B', 'C')
+  //     .build();
+
+  //   console.log(myGraph);
+  // }
+
   async function sendMessage(value: VoyagerPayload) {
-    const openai = OpenAIClient.getInstance(secretKeyStore.openaiApiKey)
-    const annotated = await annotationStore.handleMarkPage()
-    if (annotated?.image) {
-      const analyzedImage = await openai.analyzeImage(annotated.image)
-      console.log(analyzedImage)
-    }
+    // const openai = OpenAIClient.getInstance(secretKeyStore.openaiApiKey)
+    // const annotated = await annotationStore.handleMarkPage()
+    // if (annotated?.image) {
+    //   const analyzedImage = await openai.analyzeImage(annotated.image)
+    //   console.log(analyzedImage)
+    // }
+    // graphBuilder()
+
   }
 
   return { sendMessage }
