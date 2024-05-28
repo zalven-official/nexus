@@ -65,17 +65,14 @@ const onSubmit = handleSubmit((values) => {
   props.save(values)
   isLoading.value = false
 })
+
 </script>
 
 <template>
   <form
     :class="`my-5 h-52 w-full rounded-md bg-gradient-to-r from-transparent ${colorThemes[color].via_normal} ${colorThemes[color].to_normal} p-0.5 shadow`"
-    @submit="onSubmit"
-    @keypress.enter="onSubmitEnter($event, onSubmit)"
-  >
-    <div
-      class="relative h-full w-full items-center justify-center rounded-sm bg-background px-4 py-2"
-    >
+    @submit="onSubmit" @keypress.enter="onSubmitEnter($event, onSubmit)">
+    <div class="relative h-full w-full items-center justify-center rounded-sm bg-background px-4 py-2">
       <div :class="`absolute inset-0 bg-gradient-to-l from-${color}-500 from-1% z-0 opacity-50`" />
       <FormField v-slot="{ componentField }" name="apiKey" class="z-10">
         <FormItem>
@@ -104,8 +101,7 @@ const onSubmit = handleSubmit((values) => {
                 <span>
                   {{ title }}
                   <br />
-                  <span class="text-xs opacity-80"
-                    >To get secret key, visit
+                  <span class="text-xs opacity-80">To get secret key, visit
                     <a class="font-bold text-primary text-opacity-100" :href="link" target="_blank">
                       {{ productName }}
                     </a>
@@ -116,20 +112,9 @@ const onSubmit = handleSubmit((values) => {
           </FormLabel>
           <FormControl>
             <div class="z-10 flex">
-              <Input
-                class="z-10"
-                :type="visible ? 'text' : 'password'"
-                placeholder="secrete key token...."
-                v-bind="componentField"
-                :default-value="apiKey"
-              />
-              <Button
-                variant="default"
-                size="icon"
-                @click="visible = !visible"
-                type="button"
-                class="z-10"
-              >
+              <Input class="z-10" :type="visible ? 'text' : 'password'" placeholder="secrete key token...."
+                v-bind="componentField" :default-value="apiKey" />
+              <Button variant="default" size="icon" @click="visible = !visible" type="button" class="z-10">
                 <EyeIcon class="h-4 w-4" v-if="visible" />
                 <EyeOff class="h-4 w-4" v-else />
               </Button>
