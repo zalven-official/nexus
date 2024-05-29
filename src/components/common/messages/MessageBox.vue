@@ -17,12 +17,26 @@ import type { IMessageBox } from './types'
 
 // Assets
 import nexusIcon from '@/assets/nexus.png'
+import { nextTick, watch } from 'vue'
 
-defineProps<IMessageBox>()
+const props = defineProps<IMessageBox>()
+
+const scrollToBottom = () => {
+  const scrollArea = document.querySelector('.scroll-area')
+  if (scrollArea) {
+    scrollArea.scrollTop = scrollArea.scrollHeight
+  }
+}
 
 defineEmits<{
   (e: 'update:modelValue', payload: string): void
 }>()
+
+watch(props.messages, () => {
+  nextTick(() => {
+    scrollToBottom()
+  })
+})
 </script>
 
 <template>

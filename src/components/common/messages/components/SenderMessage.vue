@@ -35,9 +35,13 @@ defineProps<ChatCompletionMessageParam>()
         </p>
         <p class="rounded-lg bg-secondary p-3 text-sm shadow-sm" v-if="Array.isArray(content)">
           <span v-for="(message, index) in content" v-bind:key="index">
-            <span v-if="message.type === 'text'">{{ message.text.replace(/\n/g, '<br>') }}</span>
+            <span v-if="message.type === 'text'">{{ message.text.replace(/\n/g, '<br />') }}</span>
             <span v-if="message.type === 'image_url'">
-              <img :src="message.image_url.url" alt="sender-message-image" class="w-full rounded-md p-1 shadow" />
+              <img
+                :src="message.image_url.url"
+                alt="sender-message-image"
+                class="w-full rounded-md p-1 shadow"
+              />
             </span>
             <br />
           </span>

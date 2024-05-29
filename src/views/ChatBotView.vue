@@ -35,9 +35,7 @@ function stream(value: AgentState) {
 }
 
 async function submit(value: { message: string }) {
-  await voyagerStore.sendMessage(
-    { question: value.message, page: 0 }, stream
-  )
+  await voyagerStore.sendMessage({ question: value.message, page: 0 }, stream)
 }
 </script>
 

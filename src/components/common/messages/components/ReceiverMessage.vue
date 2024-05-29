@@ -11,7 +11,7 @@ import {
 import { marked } from 'marked'
 
 function parseMarkdown(text: string) {
-  return marked(text);
+  return marked(text)
 }
 // Utils
 import { generateFallbackName, readableTime } from '@/lib'
@@ -40,7 +40,11 @@ defineProps<ChatCompletionMessageParam>()
           <span v-for="(message, index) in content" v-bind:key="index">
             <span v-if="message.type === 'text'" v-html="marked.parse(message.text)"></span>
             <span v-if="message.type === 'image_url'">
-              <img :src="message.image_url.url" alt="sender-message-image" class="w-full rounded-md p-1 shadow" />
+              <img
+                :src="message.image_url.url"
+                alt="sender-message-image"
+                class="w-full rounded-md p-1 shadow"
+              />
             </span>
             <br />
           </span>
