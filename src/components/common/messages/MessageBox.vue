@@ -59,7 +59,7 @@ defineEmits<{
         </div>
         <p class="w-full font-bold text-primary opacity-50">How can I help you today?</p>
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-3 rounded">
+      <div class="flex flex-wrap items-end justify-center gap-3 rounded">
         <Card
           @click="$emit('update:modelValue', message.message)"
           class="group flex w-full items-center justify-between p-3 hover:bg-secondary"

@@ -12,7 +12,7 @@ export interface BBox {
 }
 
 export interface MarkPage {
-  bboxes: BBox
+  bboxes: BBox[]
   image: string
 }
 

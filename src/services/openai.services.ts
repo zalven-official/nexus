@@ -1,7 +1,6 @@
 import { OpenAI } from 'openai'
 import { decodeString, encodeString } from '@/lib'
 
-
 interface Message {
   role: 'system' | 'user' | 'assistant'
   content: string
@@ -67,47 +66,47 @@ export class OpenAIClient {
   public async analyzeImage(
     base64Image: string,
     additionalCcontext: string = "What's in this image?",
-    visualModelName: string = this.VISUAL_MODEL_NAME,
+    visualModelName: string = this.VISUAL_MODEL_NAME
   ) {
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${decodeString(this.apiKey)}`
     }
     const payload = {
-      "model": `${visualModelName}`,
-      "messages": [
+      model: `${visualModelName}`,
+      messages: [
         {
-          "role": "assistant",
-          "content": [
+          role: 'assistant',
+          content: [
             {
-              "type": "text",
-              "text": `${additionalCcontext}`
+              type: 'text',
+              text: `${additionalCcontext}`
             },
             {
-              "type": "image_url",
-              "image_url": {
-                "url": `${base64Image}`
+              type: 'image_url',
+              image_url: {
+                url: `${base64Image}`
               }
             }
           ]
         }
       ],
-      "max_tokens": 300
+      max_tokens: 300
     }
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
         headers: headers,
         body: JSON.stringify(payload)
-      });
+      })
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
-      const data = await response.json();
-      return data;
+      const data = await response.json()
+      return data
     } catch (error) {
-      console.error('Error:', error);
-      return undefined;
+      console.error('Error:', error)
+      return undefined
     }
   }
 }

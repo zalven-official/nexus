@@ -10,15 +10,19 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "watch:build": "node watcher.js"
   },
   "dependencies": {
     "@iconify/vue": "^4.1.2",
+    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/crypto-js": "^4.2.2",
     "@vee-validate/zod": "^4.12.8",
     "@vueuse/core": "^10.9.0",
     "btoa": "^1.2.1",
     "buffer": "^6.0.3",
+    "chokidar": "^3.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
@@ -29,14 +33,14 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.12.8",
-    "vite-plugin-node-polyfills": "^0.21.0",
+    "vite-plugin-node-polyfills": "^0.22.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@langchain/langgraph": "^0.0.12",
-    "@langchain/openai": "^0.0.28",
+    "@langchain/langgraph": "^0.0.21",
+    "@langchain/openai": "^0.0.34",
     "langchain": "^0.1.37",
     "langchainhub": "^0.0.10",
     "@iconify-json/radix-icons": "^1.1.14",
