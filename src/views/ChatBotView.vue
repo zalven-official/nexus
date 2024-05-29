@@ -1,18 +1,22 @@
 <script setup lang="ts">
 // Dependencies
 import { ref } from 'vue'
+
 // Components
 import ChatbotInterface from '@/components/modules/chatbot/ChatbotInterface.vue'
+import Button from '@/components/ui/button/Button.vue'
 
 // Store
 import { useVoyagerStore } from '@/stores/voyager/voyager.store'
 
 // Types
-import type { IMessage, IMessageSample } from '@/components/common/messages'
+import type { IMessageSample } from '@/components/common/messages'
+import { type AgentState } from '@/stores/voyager/voyager.store'
+import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 const voyagerStore = useVoyagerStore()
 
-const messages = ref<IMessage[]>([])
+const messages = ref<ChatCompletionMessageParam[]>([])
 const sampleMessages = ref<IMessageSample[]>([
   {
     title: 'Search latest langchain blog post',
@@ -26,11 +30,14 @@ const sampleMessages = ref<IMessageSample[]>([
   }
 ])
 
+function stream(value: AgentState) {
+  messages.value = value.scratchpad
+}
+
 async function submit(value: { message: string }) {
-  voyagerStore.sendMessage({
-    question: value.message,
-    page: 0
-  })
+  await voyagerStore.sendMessage(
+    { question: value.message, page: 0 }, stream
+  )
 }
 </script>
 

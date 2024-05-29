@@ -1,10 +1,4 @@
-export interface IMessage {
-  image: string
-  label: string
-  message: string
-  datetime: Date
-  sender: boolean
-}
+import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 export interface IMessageSample {
   title: string
@@ -13,6 +7,6 @@ export interface IMessageSample {
 }
 
 export interface IMessageBox {
-  messages: IMessage[]
+  messages: ChatCompletionMessageParam[]
   sampleMessages: IMessageSample[]
 }

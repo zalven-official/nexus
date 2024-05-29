@@ -5,6 +5,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { Loader2, SendHorizonalIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 import type { PrimitiveProps } from 'radix-vue'
+import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 // Utils
 import { onSubmitEnter } from '@/lib'
@@ -17,10 +18,10 @@ import MessageBox from '@/components/common/messages/MessageBox.vue'
 import { FormControl, FormField, FormItem } from '@/components/ui/form'
 
 // Types
-import type { IMessage, IMessageSample } from '@/components/common/messages'
+import type { IMessageSample } from '@/components/common/messages'
 
 interface Props extends PrimitiveProps {
-  messages: IMessage[]
+  messages: ChatCompletionMessageParam[]
   sampleMessages: IMessageSample[]
   save: (value: { message: string }) => Promise<void>
 }

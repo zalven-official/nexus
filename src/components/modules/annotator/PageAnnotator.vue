@@ -11,7 +11,7 @@ const annotationStore = useAnnotationStore()
 const image = ref()
 async function markPage() {
   const result = await annotationStore.handleMarkPage()
-  image.value = result?.image
+  image.value = result?.img
 }
 </script>
 

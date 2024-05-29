@@ -6,11 +6,10 @@ export class StateGraph<T> {
   private conditionalEdges: Map<string, (state: T) => string | Promise<string>>
   private edges: Map<string, string[]>
   private entryPoint: string | null
-  private state: Ref
   private recursionLimit: number
+  private state: Ref = ref()
 
-  public constructor(state: T, recursionLimit = 150) {
-    this.state = ref(state)
+  public constructor(recursionLimit = 150) {
     this.nodes = new Map()
     this.edges = new Map()
     this.conditionalEdges = new Map()
@@ -53,10 +52,14 @@ export class StateGraph<T> {
     }
   }
 
-  compile(): () => Promise<void> {
+  compile(
+    state: T,
+    callback?: (state: T) => void | Promise<(state: T) => void>
+  ): () => Promise<void> {
     if (!this.entryPoint) {
       throw new Error('Entry point not set')
     }
+    this.state.value = state
     const executeNode = async (node: string, depth: number = 0) => {
       if (depth >= this.recursionLimit) {
         throw new Error(`Recursion limit exceeded at node ${node}`)
@@ -64,6 +67,7 @@ export class StateGraph<T> {
       const fn = this.nodes.get(node)
       if (fn) {
         this.state.value = await fn(this.state.value)
+        if (callback) await callback(this.state.value)
       }
       if (this.conditionalEdges.has(node)) {
         const nextNode = await this.conditionalEdges.get(node)!(this.state.value)

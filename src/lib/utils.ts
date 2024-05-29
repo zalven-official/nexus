@@ -133,3 +133,18 @@ export function readableDateTime(dateTime: Date): string {
 
   return formattedDateTime
 }
+
+
+/**
+ * Counts the number of special characters in a given string.
+ * @param {string} inputString - The input string to count special characters in.
+ * @returns {number} The count of special characters in the input string.
+ */
+export function countSpecialCharacters(inputString: string): number {
+  const specialCharRegex = /[^\w\s]/g;
+  const matches = inputString.match(specialCharRegex);
+  if (!matches) {
+    return 0;
+  }
+  return matches.length;
+}

@@ -29,24 +29,16 @@ defineEmits<{
   <ScrollArea class="h-[450px] w-full rounded-md p-4 pt-5">
     <template v-if="messages.length > 0">
       <template v-for="(message, index) in messages" :key="index">
-        <template v-if="message.sender">
-          <SenderMessage
-            :image="message.image"
-            :label="message.label"
-            :sender="message.sender"
-            :datetime="message.datetime"
-            :message="message.message"
-          />
-        </template>
-        <template v-else>
-          <ReceiverMessage
-            :image="message.image"
-            :label="message.label"
-            :sender="message.sender"
-            :datetime="message.datetime"
-            :message="message.message"
-          />
-        </template>
+        <SenderMessage
+          :content="message.content"
+          :role="message.role"
+          v-if="message.role === 'user'"
+        />
+        <ReceiverMessage
+          :content="message.content"
+          :role="message.role"
+          v-if="message.role === 'assistant'"
+        />
       </template>
     </template>
     <template v-else>

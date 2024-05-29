@@ -9,19 +9,13 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import tailwind from "tailwindcss"
 import autoprefixer from "autoprefixer"
 
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    commonjs(),
     vue(),
     vueJsx(),
-    VueDevTools(),
-    resolve({
-      preferBuiltins: true,
-    }),
+    VueDevTools()
   ],
   css: {
     postcss: {

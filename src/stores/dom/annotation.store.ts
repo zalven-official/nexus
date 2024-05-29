@@ -8,12 +8,12 @@ export interface BBox {
   type: any
   text: any
   ariaLabel: any
-  image: string
+  img: string
 }
 
 export interface MarkPage {
   bboxes: BBox[]
-  image: string
+  img: string
 }
 
 /*
@@ -191,7 +191,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
         chrome.runtime.onMessage.addListener(async function handleMessage(message) {
           if (message.type === 'markPageCompleted') {
             const bboxes = message.data
-            await new Promise((resolve) => setTimeout(resolve, 300)) // Delay for 300 milliseconds
+            await new Promise((resolve) => setTimeout(resolve, 1_000)) // Delay for milliseconds for chrome MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND
             const screenshotUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
               format: 'png'
             })
@@ -203,7 +203,7 @@ export const useAnnotationStore = defineStore('annotation', () => {
               })
             }
 
-            resolve({ bboxes, image: screenshotUrl } as MarkPage)
+            resolve({ bboxes, img: screenshotUrl } as MarkPage)
           }
         })
       })
